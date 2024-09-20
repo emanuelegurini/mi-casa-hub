@@ -7,6 +7,8 @@ import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useForm } from "react-hook-form";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -34,10 +36,22 @@ import propertyHeatingTypeConfig from "@/config/property/property-heating-config
 import propertyEnergySourceTypeConfig from "@/config/property/property-energy-source-config";
 import propertyConditionTypeConfig from "@/config/property/property-condition-type-config";
 import propertyListingTypeConfig from "@/config/property/property-listing-type-config";
+import { Loader2 as SpinnerIcon } from "lucide-react";
+
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type EditorFormValues = z.infer<typeof EstateFormSchema>;
 
 function CreatePropertyPage() {
+  const router = useRouter();
+
+  const [isPending, startTransition] = useTransition();
   /*
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); */
 
@@ -76,39 +90,43 @@ function CreatePropertyPage() {
   }
 
   const handleCreate = async (value: EditorFormValues) => {
-    const res = await createClient()
-      .from("properties")
-      .insert({
-        title: value.title,
-        description: value.description,
-        address: value.address,
-        city_id: value.city,
-        price: value.price,
-        condo_fees: value.condo_fees,
-        floor: value.floor,
-        floor_type_id: value.floor_type,
-        has_elevator: value.has_elevator,
-        surface_area: value.surface_area,
-        rooms: value.rooms,
-        bedrooms: value.bedrooms,
-        bathrooms: value.bathrooms,
-        terrace_area: value.terrace_area,
-        heating_id: value.heating_id,
-        energy_source_id: value.energy_source_id,
-        year_built: value.year_built,
-        condition_type_id: value.condition_type_id,
-        listing_type_id: value.listing_type_id,
-        has_garage: value.has_garage,
-        has_fireplace: value.has_fireplace,
-      })
-      .select()
-      .throwOnError();
+    startTransition(async () => {
+      const { data, error } = await createClient()
+        .from("properties")
+        .insert({
+          title: value.title,
+          description: value.description,
+          address: value.address,
+          city_id: value.city,
+          price: value.price,
+          condo_fees: value.condo_fees,
+          floor: value.floor,
+          floor_type_id: value.floor_type,
+          has_elevator: value.has_elevator,
+          surface_area: value.surface_area,
+          rooms: value.rooms,
+          bedrooms: value.bedrooms,
+          bathrooms: value.bathrooms,
+          terrace_area: value.terrace_area,
+          heating_id: value.heating_id,
+          energy_source_id: value.energy_source_id,
+          year_built: value.year_built,
+          condition_type_id: value.condition_type_id,
+          listing_type_id: value.listing_type_id,
+          has_garage: value.has_garage,
+          has_fireplace: value.has_fireplace,
+        })
+        .select()
+        .throwOnError();
 
-    if (res.error) {
-      console.log("error:", res.error.message);
-    }
+      if (error) {
+        console.log("error:", error.message);
+      }
 
-    console.log("L'operazione è andata a buon fine:", res.data);
+      console.log("L'operazione è andata a buon fine:", data);
+      router.push(`/`);
+      router.refresh();
+    });
   };
 
   /*   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -691,10 +709,20 @@ function CreatePropertyPage() {
               )}
             />
           </div>
-
+          {isPending && <h1>sto ad aspettà</h1>}
           <Button type="submit">Submit</Button>
         </form>
       </Form>
+      <AlertDialog open={isPending}>
+        <AlertDialogContent className="font-sans">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-center">Loading</AlertDialogTitle>
+            <AlertDialogDescription className="mx-auto text-center">
+              <SpinnerIcon className="h-6 w-6 animate-spin" />
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
