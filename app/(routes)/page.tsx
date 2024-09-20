@@ -31,16 +31,11 @@ export default async function Home() {
     .returns<AbstractProperties[]>()
     .throwOnError();
 
-  /*     id: String;
-    address: String | null;
-    price: number;
-    city: String | null;
-    contract: String | null;
-    surfacearea: number;
-    propertytype: String[]; */
-
   return (
     <main>
+      <Button asChild>
+        <Link href={`/editor/create`}>New</Link>
+      </Button>
       <Table>
         <TableHeader>
           <TableRow>
