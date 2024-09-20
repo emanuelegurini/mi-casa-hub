@@ -45,6 +45,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import propertyTypeConfig from "@/config/property/property-type-type-config";
 
 type EditorFormValues = z.infer<typeof EstateFormSchema>;
 
@@ -76,6 +77,7 @@ function CreatePropertyPage() {
     listing_type_id: "",
     has_garage: false,
     has_fireplace: false,
+    property_type: "",
   };
 
   const form = useForm<EditorFormValues>({
@@ -115,6 +117,7 @@ function CreatePropertyPage() {
           listing_type_id: value.listing_type_id,
           has_garage: value.has_garage,
           has_fireplace: value.has_fireplace,
+          property_type_id: value.property_type,
         })
         .select()
         .throwOnError();
@@ -259,6 +262,38 @@ function CreatePropertyPage() {
                   <FormDescription>
                     This is the city of the property.
                   </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="property_type"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Property Type</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
+                      value={field.value}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Energy source" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {propertyTypeConfig.map((propertyType) => {
+                          const { id, title } = propertyType;
+                          return (
+                            <SelectItem key={id} value={id}>
+                              {title}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>Property Type</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

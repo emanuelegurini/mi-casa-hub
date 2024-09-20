@@ -37,9 +37,7 @@ export const EstateFormSchema = z.object({
   floor_type: z.string().uuid({
     message: "Floor type must be a valid UUID.",
   }),
-  has_elevator: z
-    .enum(["true", "false"])
-    .transform((value) => value === "true"),
+  has_elevator: z.boolean(),
 
   surface_area: z
     .string()
@@ -97,9 +95,11 @@ export const EstateFormSchema = z.object({
   listing_type_id: z.string().uuid({
     message: "Listing type ID must be a valid UUID.",
   }),
-  has_garage: z.enum(["true", "false"]).transform((value) => value === "true"),
+  has_garage: z.boolean(),
 
-  has_fireplace: z
-    .enum(["true", "false"])
-    .transform((value) => value === "true"),
+  has_fireplace: z.boolean(),
+
+  property_type: z.string().uuid({
+    message: "Property type ID must be a valid UUID.",
+  }),
 });

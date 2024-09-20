@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -51,7 +50,7 @@ export default async function Home() {
           {data?.map((p) => {
             const {
               id,
-              propertytype = [],
+              propertytype = "",
               address = "",
               city = "",
               contract = "",
@@ -62,8 +61,7 @@ export default async function Home() {
             return (
               <TableRow key={"id-" + id}>
                 <TableCell className="font-medium">
-                  <span className="capitalize">{propertytype[0]}</span>{" "}
-                  {address}
+                  <span className="capitalize">{propertytype}</span> {address}
                 </TableCell>
                 <TableCell className="capitalize">{city}</TableCell>
                 <TableCell>{contract}</TableCell>
