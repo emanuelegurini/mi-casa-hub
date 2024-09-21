@@ -16,15 +16,6 @@ import {
 export default async function Home() {
   const supabase = createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    revalidatePath("/", "layout");
-    redirect("/login");
-  }
-
   const { data } = await supabase
     .rpc("get_all_properties_abstract")
     .returns<AbstractProperties[]>()
