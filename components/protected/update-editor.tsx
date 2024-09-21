@@ -46,6 +46,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import propertyTypeConfig from "@/config/property/property-type-type-config";
+import { useToast } from "@/hooks/use-toast";
 
 type EditorFormValues = z.infer<typeof estateUpdateSchema>;
 
@@ -56,6 +57,7 @@ interface EditorProps {
 }
 
 function UpdateEditor({ post }: EditorProps) {
+  const { toast } = useToast();
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -127,10 +129,15 @@ function UpdateEditor({ post }: EditorProps) {
         .throwOnError();
 
       if (error) {
-        console.log("error:", error.message);
+        toast({
+          title: "Upload error",
+          description: error.message,
+        });
       }
-
-      console.log("L'operazione è andata a buon fine:", data);
+      toast({
+        title: "Upload notice",
+        description: "L'operazione è andata a buon fine:",
+      });
       router.push(`/property/${post.id}`);
       router.refresh();
     });

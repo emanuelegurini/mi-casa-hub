@@ -4,26 +4,29 @@ import React, { useState, useTransition } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/client";
 import { Loader2 as SpinnerIcon } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
 
 const UploadImages: React.FC<{ id: string }> = (props) => {
+  const { toast } = useToast();
+
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isPending, startTransition] = useTransition();
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     setSelectedFiles(files);
-    setSuccessMessage(null); // Reset success message on new file selection
   };
 
   const handleUpload = () => {
     startTransition(async () => {
       if (selectedFiles.length === 0) {
-        console.log("No files selected");
+        toast({
+          title: "Upload Error",
+          description: "No files selected",
+        });
         return;
       }
-
-      let allUploadsSuccessful = true;
 
       for (const file of selectedFiles) {
         const {
@@ -37,16 +40,17 @@ const UploadImages: React.FC<{ id: string }> = (props) => {
           });
 
         if (error) {
-          console.log(error.message);
-          allUploadsSuccessful = false;
+          toast({
+            title: "Upload Error",
+            description: error.message,
+          });
           setSelectedFiles([]);
         } else {
-          console.log("File uploaded successfully:", data);
+          toast({
+            title: "Upload notice",
+            description: "File uploaded succesfully",
+          });
         }
-      }
-
-      if (allUploadsSuccessful) {
-        setSuccessMessage("All files uploaded successfully!");
       }
     });
   };
@@ -67,21 +71,22 @@ const UploadImages: React.FC<{ id: string }> = (props) => {
               accept="image/*"
               multiple
               onChange={handleFileChange}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-slate-50 file:text-slate-400 hover:file:bg-slate-100"
             />
-            {selectedFiles.length > 0 && (
-              <button
+
+            <div className="flex justify-end">
+              <Button
                 onClick={handleUpload}
-                className="mt-4 px-4 py-2 bg-slate-800 text-white rounded"
-                disabled={isPending}
+                disabled={isPending || selectedFiles.length <= 0}
+                className="w-full"
               >
                 {isPending ? (
                   <SpinnerIcon className="h-6 w-6 animate-spin" />
                 ) : (
                   "Upload"
                 )}
-              </button>
-            )}
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

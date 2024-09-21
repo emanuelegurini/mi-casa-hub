@@ -46,15 +46,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import propertyTypeConfig from "@/config/property/property-type-type-config";
+import { useToast } from "@/hooks/use-toast";
 
 type EditorFormValues = z.infer<typeof estateFormSchema>;
 
 function Editor() {
   const router = useRouter();
+  const { toast } = useToast();
 
   const [isPending, startTransition] = useTransition();
-  /*
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); */
 
   const defaultValues: Partial<EditorFormValues> = {
     title: "",
@@ -122,10 +122,17 @@ function Editor() {
         .throwOnError();
 
       if (error) {
-        console.log("error:", error.message);
+        toast({
+          title: "Upload error",
+          description: error.message,
+        });
       }
 
-      console.log("L'operazione è andata a buon fine:", data);
+      toast({
+        title: "Upload notice",
+        description: "L'operazione è andata a buon fine",
+      });
+
       router.push(`/`);
       router.refresh();
     });
