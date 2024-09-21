@@ -47,13 +47,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import propertyTypeConfig from "@/config/property/property-type-type-config";
 
-interface EditorProps {
-  postID?: string;
-}
-
 type EditorFormValues = z.infer<typeof estateFormSchema>;
 
-function Editor({ postID }: EditorProps) {
+function Editor() {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
@@ -135,48 +131,8 @@ function Editor({ postID }: EditorProps) {
     });
   };
 
-  /*   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    setSelectedFiles(files);
-  }; */
-
-  /*   const handleUpload = async () => {
-    if (selectedFiles.length === 0) {
-      console.log("No files selected");
-      return;
-    }
-
-    for (const file of selectedFiles) {
-      const {
-        data: { user },
-      } = await createClient().auth.getUser();
-      const { data, error } = await createClient()
-        .storage.from("gallery-image")
-        .upload(`${user?.id}/${id}/${file.name}`, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-
-      if (error) {
-        console.log(error.message);
-      } else {
-        console.log("File uploaded successfully:", data);
-      }
-    }
-  }; */
-
   return (
     <>
-      {/*       <input multiple type="file" onChange={handleFileChange} />
-      <ul>
-        {selectedFiles.map((file, index) => (
-          <li key={index}>{file.name}</li>
-        ))}
-      </ul>
-      <ReactQuill theme="snow" value={value} onChange={setValue} />
-      <div>{value}</div>
-      <button onClick={handleUpload}>Update</button> */}
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

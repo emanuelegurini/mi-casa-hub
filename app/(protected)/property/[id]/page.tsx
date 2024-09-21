@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
+import UploadImages from "@/components/protected/property-detail/upload-images";
 
 interface PropertyPageProps {
   params: {
@@ -217,6 +218,7 @@ async function PropertyPage({ params }: PropertyPageProps) {
               </Table>
             </CardContent>
           </Card>
+          <UploadImages id={id} />
         </div>
       </div>
     </main>
