@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const EstateFormSchema = z.object({
+export const estateFormSchema = z.object({
   title: z.string().min(2, {
     message: "Title must be at least 2 characters.",
   }),
@@ -102,4 +102,39 @@ export const EstateFormSchema = z.object({
   property_type: z.string().uuid({
     message: "Property type ID must be a valid UUID.",
   }),
+});
+
+export const estateUpdateSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  address: z.string(),
+  city_id: z.string().uuid(),
+  price: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  condo_fees: z
+    .union([z.string(), z.number()])
+    .transform(Number)
+    .nullable()
+    .optional(),
+  floor: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  floor_type_id: z.string().uuid(),
+  has_elevator: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
+  surface_area: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  rooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  bedrooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  bathrooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  terrace_area: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  heating_id: z.string().uuid(),
+  energy_source_id: z.string().uuid(),
+  year_built: z.union([z.string(), z.number()]).transform(Number).nullable(),
+  condition_type_id: z.string().uuid(),
+  listing_type_id: z.string().uuid(),
+  has_garage: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
+  has_fireplace: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
+  property_type_id: z.string(),
 });

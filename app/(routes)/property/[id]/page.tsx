@@ -14,7 +14,7 @@ interface PropertyPageProps {
 async function PropertyPage({ params }: PropertyPageProps) {
   const { id } = params;
 
-  let { data, error } = await createClient().rpc("get_property_by_id", {
+  const { data, error } = await createClient().rpc("get_property_by_id", {
     property_id: id,
   });
   if (error) console.error(error);
