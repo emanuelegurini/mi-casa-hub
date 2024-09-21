@@ -64,10 +64,10 @@ function Editor({ postID }: EditorProps) {
     title: "",
     description: "",
     address: "",
-    city: "",
+    city_id: "",
     price: null,
     floor: null,
-    floor_type: "",
+    floor_type_id: "",
     has_elevator: false,
     surface_area: null,
     rooms: null,
@@ -81,7 +81,7 @@ function Editor({ postID }: EditorProps) {
     listing_type_id: "",
     has_garage: false,
     has_fireplace: false,
-    property_type: "",
+    property_type_id: "",
   };
 
   const form = useForm<EditorFormValues>({
@@ -102,11 +102,11 @@ function Editor({ postID }: EditorProps) {
           title: value.title,
           description: value.description,
           address: value.address,
-          city_id: value.city,
+          city_id: value.city_id,
           price: value.price,
           condo_fees: value.condo_fees,
           floor: value.floor,
-          floor_type_id: value.floor_type,
+          floor_type_id: value.floor_type_id,
           has_elevator: value.has_elevator,
           surface_area: value.surface_area,
           rooms: value.rooms,
@@ -120,7 +120,7 @@ function Editor({ postID }: EditorProps) {
           listing_type_id: value.listing_type_id,
           has_garage: value.has_garage,
           has_fireplace: value.has_fireplace,
-          property_type_id: value.property_type,
+          property_type_id: value.property_type_id,
         })
         .select()
         .throwOnError();
@@ -237,7 +237,7 @@ function Editor({ postID }: EditorProps) {
 
             <FormField
               control={form.control}
-              name="city"
+              name="city_id"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>City</FormLabel>
@@ -272,7 +272,7 @@ function Editor({ postID }: EditorProps) {
 
             <FormField
               control={form.control}
-              name="property_type"
+              name="property_type_id"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Property Type</FormLabel>
@@ -371,7 +371,7 @@ function Editor({ postID }: EditorProps) {
 
             <FormField
               control={form.control}
-              name="floor_type"
+              name="floor_type_id"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Floor Type</FormLabel>

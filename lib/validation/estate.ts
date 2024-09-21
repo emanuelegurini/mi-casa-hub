@@ -10,7 +10,7 @@ export const estateFormSchema = z.object({
   address: z.string().min(2, {
     message: "Address must be at least 2 characters.",
   }),
-  city: z.string().uuid({
+  city_id: z.string().uuid({
     message: "City must be a valid UUID.",
   }),
   price: z
@@ -34,10 +34,12 @@ export const estateFormSchema = z.object({
     })
     .transform(Number)
     .nullable(),
-  floor_type: z.string().uuid({
+  floor_type_id: z.string().uuid({
     message: "Floor type must be a valid UUID.",
   }),
-  has_elevator: z.boolean(),
+  has_elevator: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
 
   surface_area: z
     .string()
@@ -95,11 +97,15 @@ export const estateFormSchema = z.object({
   listing_type_id: z.string().uuid({
     message: "Listing type ID must be a valid UUID.",
   }),
-  has_garage: z.boolean(),
+  has_garage: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
 
-  has_fireplace: z.boolean(),
+  has_fireplace: z
+    .union([z.string(), z.boolean()])
+    .transform((val) => val === "true" || val === true),
 
-  property_type: z.string().uuid({
+  property_type_id: z.string().uuid({
     message: "Property type ID must be a valid UUID.",
   }),
 });

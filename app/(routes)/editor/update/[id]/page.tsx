@@ -10,20 +10,12 @@ interface PropertyPageProps {
 async function UpdatePropertyPage({ params }: PropertyPageProps) {
   const { id } = params;
 
-  /*  const { data, error } = await createClient().rpc("get_property_by_id", {
-    property_id: id,
-  });
-  if (error) console.error(error);
-  else console.log(data); */
-
   const { data, error } = await createClient()
     .from("properties")
     .select("*")
     .eq("id", id)
     .single()
     .throwOnError();
-
-  console.log("data", data);
 
   return (
     <>

@@ -32,9 +32,11 @@ export default async function Home() {
 
   return (
     <main>
-      <Button asChild>
-        <Link href={`/editor/create`}>New</Link>
-      </Button>
+      <div className="mb-4">
+        <Button asChild>
+          <Link href={`/editor/create`}>New</Link>
+        </Button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
