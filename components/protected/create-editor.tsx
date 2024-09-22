@@ -50,7 +50,7 @@ import { useToast } from "@/hooks/use-toast";
 
 type EditorFormValues = z.infer<typeof estateFormSchema>;
 
-function Editor() {
+function Editor({ userId }: { userId: String }) {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -117,6 +117,7 @@ function Editor() {
           has_garage: value.has_garage,
           has_fireplace: value.has_fireplace,
           property_type_id: value.property_type_id,
+          user_id: userId,
         })
         .select()
         .throwOnError();

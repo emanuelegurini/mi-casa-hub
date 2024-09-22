@@ -1,10 +1,16 @@
 import Editor from "@/components/protected/create-editor";
-import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
 
-function CreatePropertyPage() {
+async function CreatePropertyPage() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <>
-      <Editor />
+      <Editor userId={user?.id!} />
     </>
   );
 }
