@@ -68,6 +68,7 @@ function UpdateEditor({ post }: EditorProps) {
     address: post.address ?? "",
     city_id: post.city_id,
     price: post.price ?? null,
+    condo_fees: post.condo_fees ?? null,
     floor: post.floor ?? null,
     floor_type_id: post.floor_type_id,
     has_elevator: post.has_elevator ?? false,

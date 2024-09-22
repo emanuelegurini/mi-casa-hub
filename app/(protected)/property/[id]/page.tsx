@@ -7,6 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import UploadImages from "@/components/protected/property-detail/upload-images";
 
+const formatter = new Intl.NumberFormat("it", {
+  style: "currency",
+  currency: "EUR",
+});
+
 interface PropertyPageProps {
   params: {
     id: string;
@@ -74,13 +79,15 @@ async function PropertyPage({ params }: PropertyPageProps) {
                   <TableRow>
                     <TableCell className="font-medium">Price</TableCell>
                     <TableCell className="text-right">
-                      {data.price.price}
+                      {formatter.format(Number(data.price.price))}
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Condo Fees</TableCell>
                     <TableCell className="text-right">
-                      {data.price.condoFees}
+                      {data.price.condoFees
+                        ? formatter.format(Number(data.price.condoFees))
+                        : "No"}
                     </TableCell>
                   </TableRow>
                 </TableBody>

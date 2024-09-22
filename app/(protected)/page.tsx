@@ -13,6 +13,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+const formatter = new Intl.NumberFormat("it", {
+  style: "currency",
+  currency: "EUR",
+});
+
 export default async function Home() {
   const supabase = createClient();
 
@@ -59,7 +64,7 @@ export default async function Home() {
                 <TableCell className="capitalize">{city}</TableCell>
                 <TableCell>{contract}</TableCell>
                 <TableCell>{surfacearea}</TableCell>
-                <TableCell>{price}</TableCell>
+                <TableCell>{formatter.format(Number(price))}</TableCell>
                 <TableCell className="text-center">
                   <Button asChild>
                     <Link href={`./property/${id}`}>Apri</Link>
