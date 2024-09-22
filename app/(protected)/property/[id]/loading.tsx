@@ -1,25 +1,20 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { createClient } from "@/utils/supabase/server";
 import UploadImages from "@/components/protected/property-detail/upload-images";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Table } from "lucide-react";
 
-interface PropertyPageProps {
-  params: {
-    id: string;
-  };
+function SkeletonLoader() {
+  return (
+    <div className="animate-pulse">
+      <div className="h-4 bg-gray-300 rounded w-3/4 mb-4"></div>
+      <div className="h-4 bg-gray-300 rounded w-1/2 mb-4"></div>
+      <div className="h-4 bg-gray-300 rounded w-full mb-4"></div>
+    </div>
+  );
 }
-async function PropertyPage({ params }: PropertyPageProps) {
-  const { id } = params;
 
-  const { data, error } = await createClient().rpc("get_property_by_id", {
-    property_id: id,
-  });
-  if (error) throw Error(error.message);
-
+function Loading() {
   return (
     <main className="pb-16 lg:pb-24 antialiased">
       <div className="container mx-auto px-4">
@@ -27,8 +22,8 @@ async function PropertyPage({ params }: PropertyPageProps) {
           <h1 className="text-2xl font-semibold text-gray-800">
             Property Details
           </h1>
-          <Button className="text-white" asChild>
-            <Link href={`/editor/update/${id}`}>Update</Link>
+          <Button className="text-white" disabled>
+            Update
           </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -41,23 +36,22 @@ async function PropertyPage({ params }: PropertyPageProps) {
                 <TableBody>
                   <TableRow>
                     <TableCell className="font-medium">Property ID</TableCell>
-                    <TableCell className="text-right">{data.id}</TableCell>
+                    <TableCell className="text-right">
+                      <SkeletonLoader />
+                    </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Title</TableCell>
-                    <TableCell className="text-right">{data.title}</TableCell>
+                    <TableCell className="text-right">
+                      <SkeletonLoader />
+                    </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium text-left">
-                        Description
-                      </TableCell>
-                    </TableRow>
+                    <TableCell className="font-medium text-left">
+                      Description
+                    </TableCell>
                     <TableCell className="text-left">
-                      <div
-                        className="whitespace-pre-wrap"
-                        dangerouslySetInnerHTML={{ __html: data.description }}
-                      />
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -74,13 +68,13 @@ async function PropertyPage({ params }: PropertyPageProps) {
                   <TableRow>
                     <TableCell className="font-medium">Price</TableCell>
                     <TableCell className="text-right">
-                      {data.price.price}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Condo Fees</TableCell>
                     <TableCell className="text-right">
-                      {data.price.condoFees}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -97,25 +91,25 @@ async function PropertyPage({ params }: PropertyPageProps) {
                   <TableRow>
                     <TableCell className="font-medium">Floor</TableCell>
                     <TableCell className="text-right">
-                      {data.surfaceDetail.floor}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Floor Type</TableCell>
                     <TableCell className="text-right">
-                      {data.surfaceDetail.floorType}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Surface Area</TableCell>
                     <TableCell className="text-right">
-                      {data.surfaceDetail.surfaceArea}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Terrace Area</TableCell>
                     <TableCell className="text-right">
-                      {data.surfaceDetail.terraceArea}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -132,37 +126,37 @@ async function PropertyPage({ params }: PropertyPageProps) {
                   <TableRow>
                     <TableCell className="font-medium">Bathrooms</TableCell>
                     <TableCell className="text-right">
-                      {data.features.bathrooms}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Bedrooms</TableCell>
                     <TableCell className="text-right">
-                      {data.features.bedrooms}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Contract</TableCell>
                     <TableCell className="text-right">
-                      {data.features.contract}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Rooms</TableCell>
                     <TableCell className="text-right">
-                      {data.features.rooms}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Has Elevator</TableCell>
                     <TableCell className="text-right">
-                      {data.features.hasElevator ? "Yes" : "No"}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Property Type</TableCell>
                     <TableCell className="text-right">
-                      {data.features.propertyType}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -179,7 +173,7 @@ async function PropertyPage({ params }: PropertyPageProps) {
                   <TableRow>
                     <TableCell className="font-medium">Has Fireplace</TableCell>
                     <TableCell className="text-right">
-                      {data.otherFeatures.hasFireplace ? "Yes" : "No"}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -198,30 +192,29 @@ async function PropertyPage({ params }: PropertyPageProps) {
                       Property Condition
                     </TableCell>
                     <TableCell className="text-right">
-                      {data.energyEfficiency.propertyCondition}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Heating Type</TableCell>
                     <TableCell className="text-right">
-                      {data.energyEfficiency.heatingType}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Energy Source</TableCell>
                     <TableCell className="text-right">
-                      {data.energyEfficiency.energySource}
+                      <SkeletonLoader />
                     </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
-          <UploadImages id={id} />
         </div>
       </div>
     </main>
   );
 }
 
-export default PropertyPage;
+export default Loading;

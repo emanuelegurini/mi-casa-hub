@@ -22,7 +22,6 @@ export default function AccountForm({ user }: { user: User | null }) {
         .single();
 
       if (error && status !== 406) {
-        console.log(error);
         throw error;
       }
 
@@ -33,8 +32,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      console.log(error);
-      //alert("Error loading user data!");
+      // TODO: insert toast
     } finally {
       setLoading(false);
     }
