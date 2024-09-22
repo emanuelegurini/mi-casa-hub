@@ -6,6 +6,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import UploadImages from "@/components/protected/property-detail/upload-images";
+import PropertyCarousel from "@/components/protected/property-detail/property-carousel";
 
 const formatter = new Intl.NumberFormat("it", {
   style: "currency",
@@ -20,7 +21,13 @@ interface PropertyPageProps {
 async function PropertyPage({ params }: PropertyPageProps) {
   const { id } = params;
 
-  const { data, error } = await createClient().rpc("get_property_by_id", {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase.rpc("get_property_by_id", {
     property_id: id,
   });
   if (error) throw Error(error.message);
@@ -32,9 +39,12 @@ async function PropertyPage({ params }: PropertyPageProps) {
           <h1 className="text-2xl font-semibold text-gray-800">
             Property Details
           </h1>
-          <Button className="text-white" asChild>
-            <Link href={`/editor/update/${id}`}>Update</Link>
-          </Button>
+          <div className="flex gap-2">
+            <PropertyCarousel userID={user?.id!} id={id} />
+            <Button className="text-white" asChild>
+              <Link href={`/editor/update/${id}`}>Update</Link>
+            </Button>
+          </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <Card className="lg:col-span-2">
@@ -53,11 +63,9 @@ async function PropertyPage({ params }: PropertyPageProps) {
                     <TableCell className="text-right">{data.title}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium text-left">
-                        Description
-                      </TableCell>
-                    </TableRow>
+                    <TableCell className="font-medium text-left">
+                      Description
+                    </TableCell>
                     <TableCell className="text-left">
                       <div
                         className="whitespace-pre-wrap"
