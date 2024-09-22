@@ -19,8 +19,10 @@ export default async function RootLayout({
 
   return (
     <>
-      <MainHeader />
-      {children}
+      <main className="m-auto w-full max-w-[1200px] flex-1 p-4">
+        <MainHeader />
+        {children}
+      </main>
     </>
   );
 }
