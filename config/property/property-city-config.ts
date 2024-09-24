@@ -6,6 +6,11 @@ interface City {
 
 export const propertyCityConfig: City[] = [
   {
+    id: "/",
+    title: "/",
+    slug: "",
+  },
+  {
     id: "af804e00-2bcb-4239-b6e0-512a141a8c76",
     title: "Porto Recanati",
     slug: "porto-recanati",

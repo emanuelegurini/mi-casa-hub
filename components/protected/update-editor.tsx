@@ -29,7 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { estateUpdateSchema } from "@/lib/validation/estate";
+import { estateFormSchema, estateUpdateSchema } from "@/lib/validation/estate";
 import propertyCityConfig from "@/config/property/property-city-config";
 import propertyFloorTypeConfig from "@/config/property/property-floor-type-config";
 import propertyHeatingTypeConfig from "@/config/property/property-heating-config";
@@ -48,7 +48,7 @@ import {
 import propertyTypeConfig from "@/config/property/property-type-type-config";
 import { useToast } from "@/hooks/use-toast";
 
-type EditorFormValues = z.infer<typeof estateUpdateSchema>;
+type EditorFormValues = z.infer<typeof estateFormSchema>;
 
 type UpdateEditor = EditorFormValues & { id: string };
 
@@ -63,26 +63,26 @@ function UpdateEditor({ post }: EditorProps) {
   const [isPending, startTransition] = useTransition();
 
   const defaultValues: Partial<EditorFormValues> = {
-    title: post.title ?? "",
-    description: post.description ?? "",
-    address: post.address ?? "",
+    title: post.title,
+    description: post.description,
+    address: post.address,
     city_id: post.city_id,
-    price: post.price ?? null,
-    condo_fees: post.condo_fees ?? null,
-    floor: post.floor ?? null,
+    price: post.price,
+    condo_fees: post.condo_fees,
+    floor: post.floor,
     floor_type_id: post.floor_type_id,
-    has_elevator: post.has_elevator ?? false,
-    surface_area: post.surface_area ?? null,
-    rooms: post.rooms ?? null,
-    bedrooms: post.bedrooms ?? null,
-    bathrooms: post.bathrooms ?? null,
-    terrace_area: post.terrace_area || null,
+    has_elevator: post.has_elevator,
+    surface_area: post.surface_area,
+    rooms: post.rooms,
+    bedrooms: post.bedrooms,
+    bathrooms: post.bathrooms,
+    terrace_area: post.terrace_area,
     heating_id: post.heating_id,
     energy_source_id: post.energy_source_id,
-    year_built: post.year_built ?? null,
+    year_built: post.year_built,
     condition_type_id: post.condition_type_id,
     listing_type_id: post.listing_type_id,
-    has_garage: post.has_garage ?? false,
+    has_garage: post.has_garage,
     has_fireplace: post.has_fireplace ?? false,
     property_type_id: post.property_type_id,
   };
@@ -222,11 +222,13 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyCityConfig.map((city) => {
                           const { id, title } = city;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
                         })}
                       </SelectContent>
                     </Select>
@@ -256,11 +258,13 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyTypeConfig.map((propertyType) => {
                           const { id, title } = propertyType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
                         })}
                       </SelectContent>
                     </Select>
@@ -347,7 +351,7 @@ function UpdateEditor({ post }: EditorProps) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Floor type" />
@@ -355,11 +359,14 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyFloorTypeConfig.map((floorType) => {
                           const { id, title } = floorType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -515,7 +522,7 @@ function UpdateEditor({ post }: EditorProps) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Heating" />
@@ -523,11 +530,14 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyHeatingTypeConfig.map((heatingType) => {
                           const { id, title } = heatingType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -547,7 +557,7 @@ function UpdateEditor({ post }: EditorProps) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Energy source" />
@@ -556,11 +566,14 @@ function UpdateEditor({ post }: EditorProps) {
                         {propertyEnergySourceTypeConfig.map(
                           (energySourceType) => {
                             const { id, title } = energySourceType;
-                            return (
-                              <SelectItem key={id} value={id}>
-                                {title}
-                              </SelectItem>
-                            );
+                            if (id !== "/") {
+                              return (
+                                <SelectItem key={id} value={id}>
+                                  {title}
+                                </SelectItem>
+                              );
+                            }
+                            return null;
                           }
                         )}
                       </SelectContent>
@@ -612,11 +625,13 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyConditionTypeConfig.map((conditionType) => {
                           const { id, title } = conditionType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
                         })}
                       </SelectContent>
                     </Select>
@@ -644,11 +659,13 @@ function UpdateEditor({ post }: EditorProps) {
                       <SelectContent>
                         {propertyListingTypeConfig.map((listingType) => {
                           const { id, title } = listingType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
                         })}
                       </SelectContent>
                     </Select>

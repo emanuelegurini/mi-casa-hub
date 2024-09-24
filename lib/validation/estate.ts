@@ -1,146 +1,86 @@
-import z from "zod";
+import { z } from "zod";
 
-export const estateFormSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string().min(2, {
-    message: "Description must be at least 2 characters.",
-  }),
-  address: z.string().min(2, {
-    message: "Address must be at least 2 characters.",
-  }),
-  city_id: z.string().uuid({
-    message: "City must be a valid UUID.",
-  }),
-  price: z
-    .string()
-    .min(0, {
-      message: "Price must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  condo_fees: z
-    .string()
-    .min(1, {
-      message: "Condo fees must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  floor: z
-    .string()
-    .min(-1, {
-      message: "Floor must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  floor_type_id: z.string().uuid({
-    message: "Floor type must be a valid UUID.",
-  }),
-  has_elevator: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
+// Utility functions
+const stringToNumber = (val: string | number) =>
+  val === "" || val === null ? null : Number(val);
+const stringToBoolean = (val: string | boolean) =>
+  val === "true" || val === true;
 
-  surface_area: z
-    .string()
-    .min(1, {
-      message: "Surface area must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  rooms: z
-    .string()
-    .min(1, {
-      message: "Rooms must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  bedrooms: z
-    .string()
-    .min(1, {
-      message: "Bedrooms must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  bathrooms: z
-    .string()
-    .min(1, {
-      message: "Bathrooms must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  terrace_area: z
-    .string()
-    .min(1, {
-      message: "Terrace area must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
-  heating_id: z.string().uuid({
-    message: "Heating ID must be a valid UUID.",
-  }),
-  energy_source_id: z.string().uuid({
-    message: "Energy source ID must be a valid UUID.",
-  }),
-  year_built: z
-    .string()
-    .min(1, {
-      message: "Year built must be at least 1.",
-    })
-    .transform(Number)
-    .nullable(),
+// Base schemas
+const uuidSchema = z.string().uuid("Must be a valid UUID");
+const numberSchema = z
+  .union([z.string(), z.number()])
+  .transform(stringToNumber)
+  .nullable();
+const booleanSchema = z
+  .union([z.string(), z.boolean()])
+  .transform(stringToBoolean);
 
-  condition_type_id: z.string().uuid({
-    message: "Condition type ID must be a valid UUID.",
-  }),
-
-  listing_type_id: z.string().uuid({
-    message: "Listing type ID must be a valid UUID.",
-  }),
-  has_garage: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
-
-  has_fireplace: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
-
-  property_type_id: z.string().uuid({
-    message: "Property type ID must be a valid UUID.",
-  }),
+// Reusable field schemas
+const minLengthString = (min: number) =>
+  z.string().min(min, `Must be at least ${min} characters`);
+const positiveNumber = numberSchema.refine((val) => val === null || val > 0, {
+  message: "Must be greater than 0",
 });
 
+// Year built schema
+const yearBuiltSchema = z
+  .union([z.string(), z.number()])
+  .transform((val) => (val === "" ? null : Number(val)))
+  .nullable()
+  .refine(
+    (val) => val === null || (val >= 1000 && val <= new Date().getFullYear()),
+    { message: "Year must be a valid 4-digit number" }
+  )
+  .describe("Year of construction");
+
+// Common fields
+const commonFields = {
+  title: minLengthString(2).describe("Property title"),
+  description: minLengthString(2).describe("Property description"),
+  address: minLengthString(2).describe("Property address"),
+  city_id: z
+    .string()
+    .uuid("City must not remain unselected.")
+    .describe("City ID"),
+  property_type_id: uuidSchema.describe("Property type ID"),
+  price: positiveNumber.describe("Property price"),
+  surface_area: positiveNumber.describe("Total surface area"),
+  condition_type_id: uuidSchema.describe("Condition type ID"),
+  listing_type_id: uuidSchema.describe("Listing type ID"),
+};
+
+// Optional fields
+const optionalFields = {
+  condo_fees: numberSchema.describe("Condominium fees"),
+  floor: numberSchema.describe("Floor number"),
+  floor_type_id: uuidSchema.nullable().describe("Floor type ID"),
+  has_elevator: booleanSchema.describe("Has elevator"),
+  rooms: positiveNumber.nullable().describe("Number of rooms"),
+  bedrooms: positiveNumber.nullable().describe("Number of bedrooms"),
+  bathrooms: positiveNumber.nullable().describe("Number of bathrooms"),
+  terrace_area: positiveNumber.nullable().describe("Terrace area"),
+  heating_id: uuidSchema.nullable().describe("Heating system ID"),
+  energy_source_id: uuidSchema.nullable().describe("Energy source ID"),
+  year_built: yearBuiltSchema,
+  has_garage: booleanSchema.describe("Has garage"),
+  has_fireplace: booleanSchema.describe("Has fireplace"),
+};
+
+// Main schema
+export const estateFormSchema = z.object({
+  ...commonFields,
+  ...optionalFields,
+});
+
+// Update schema
 export const estateUpdateSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  address: z.string(),
-  city_id: z.string().uuid(),
-  price: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  condo_fees: z
-    .union([z.string(), z.number()])
-    .transform(Number)
-    .nullable()
-    .optional(),
-  floor: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  floor_type_id: z.string().uuid(),
-  has_elevator: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
-  surface_area: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  rooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  bedrooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  bathrooms: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  terrace_area: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  heating_id: z.string().uuid(),
-  energy_source_id: z.string().uuid(),
-  year_built: z.union([z.string(), z.number()]).transform(Number).nullable(),
-  condition_type_id: z.string().uuid(),
-  listing_type_id: z.string().uuid(),
-  has_garage: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
-  has_fireplace: z
-    .union([z.string(), z.boolean()])
-    .transform((val) => val === "true" || val === true),
-  property_type_id: z.string(),
+  ...commonFields,
+  ...Object.entries(optionalFields).reduce(
+    (acc, [key, schema]) => ({
+      ...acc,
+      [key]: schema.optional(),
+    }),
+    {}
+  ),
 });

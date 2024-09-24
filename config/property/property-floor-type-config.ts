@@ -6,8 +6,13 @@ interface FloorType {
 
 export const propertyFloorTypeConfig: FloorType[] = [
   {
+    id: "/",
+    title: "/",
+    slug: "",
+  },
+  {
     id: "2eba542c-7771-4c9f-8435-2ab4c535bad6",
-    title: "Sopraelevato",
+    title: "sopraelevato",
     slug: "sopraelevato",
   },
   {

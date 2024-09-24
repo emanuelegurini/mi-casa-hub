@@ -62,16 +62,17 @@ function Editor({ userId }: { userId: String }) {
     address: "",
     city_id: "",
     price: null,
+    condo_fees: null,
     floor: null,
-    floor_type_id: "",
+    floor_type_id: null,
     has_elevator: false,
     surface_area: null,
     rooms: null,
     bedrooms: null,
     bathrooms: null,
     terrace_area: null,
-    heating_id: "",
-    energy_source_id: "",
+    heating_id: null,
+    energy_source_id: null,
     year_built: null,
     condition_type_id: "",
     listing_type_id: "",
@@ -217,11 +218,14 @@ function Editor({ userId }: { userId: String }) {
                       <SelectContent>
                         {propertyCityConfig.map((city) => {
                           const { id, title } = city;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -246,16 +250,19 @@ function Editor({ userId }: { userId: String }) {
                       value={field.value}
                     >
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Energy source" />
+                        <SelectValue placeholder="Property Type" />
                       </SelectTrigger>
                       <SelectContent>
                         {propertyTypeConfig.map((propertyType) => {
                           const { id, title } = propertyType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -342,7 +349,7 @@ function Editor({ userId }: { userId: String }) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Floor type" />
@@ -350,11 +357,14 @@ function Editor({ userId }: { userId: String }) {
                       <SelectContent>
                         {propertyFloorTypeConfig.map((floorType) => {
                           const { id, title } = floorType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -404,7 +414,7 @@ function Editor({ userId }: { userId: String }) {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="Floor"
+                    placeholder="Surface area"
                     {...field}
                     value={field.value ?? ""}
                   />
@@ -510,7 +520,7 @@ function Editor({ userId }: { userId: String }) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Heating" />
@@ -518,11 +528,14 @@ function Editor({ userId }: { userId: String }) {
                       <SelectContent>
                         {propertyHeatingTypeConfig.map((heatingType) => {
                           const { id, title } = heatingType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -542,7 +555,7 @@ function Editor({ userId }: { userId: String }) {
                   <FormControl>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field.value ?? ""}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Energy source" />
@@ -551,11 +564,14 @@ function Editor({ userId }: { userId: String }) {
                         {propertyEnergySourceTypeConfig.map(
                           (energySourceType) => {
                             const { id, title } = energySourceType;
-                            return (
-                              <SelectItem key={id} value={id}>
-                                {title}
-                              </SelectItem>
-                            );
+                            if (id !== "/") {
+                              return (
+                                <SelectItem key={id} value={id}>
+                                  {title}
+                                </SelectItem>
+                              );
+                            }
+                            return null;
                           }
                         )}
                       </SelectContent>
@@ -607,11 +623,14 @@ function Editor({ userId }: { userId: String }) {
                       <SelectContent>
                         {propertyConditionTypeConfig.map((conditionType) => {
                           const { id, title } = conditionType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>
@@ -639,11 +658,14 @@ function Editor({ userId }: { userId: String }) {
                       <SelectContent>
                         {propertyListingTypeConfig.map((listingType) => {
                           const { id, title } = listingType;
-                          return (
-                            <SelectItem key={id} value={id}>
-                              {title}
-                            </SelectItem>
-                          );
+                          if (id !== "/") {
+                            return (
+                              <SelectItem key={id} value={id}>
+                                {title}
+                              </SelectItem>
+                            );
+                          }
+                          return null;
                         })}
                       </SelectContent>
                     </Select>

@@ -6,6 +6,11 @@ interface PropertyType {
 
 export const propertyTypeConfig: PropertyType[] = [
   {
+    id: "/",
+    title: "/",
+    slug: "",
+  },
+  {
     id: "0551f4ed-c0bd-49de-8426-faca59aca97d",
     title: "Classe Immobile Signorile",
     slug: "classe-immobile-signorile",

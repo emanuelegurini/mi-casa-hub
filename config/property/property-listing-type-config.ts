@@ -6,6 +6,11 @@ interface ListingType {
 
 export const propertyListingTypeConfig: ListingType[] = [
   {
+    id: "/",
+    title: "/",
+    slug: "",
+  },
+  {
     id: "c1b74742-345b-4708-b62b-0551b7294f71",
     title: "Affitto",
     slug: "affitto",
