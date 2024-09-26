@@ -64,7 +64,7 @@ async function PropertyPage({ params }: PropertyPageProps) {
                     <TableCell className="text-right">{data.title}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium text-left">
+                    <TableCell className="font-medium text-left align-top">
                       Description
                     </TableCell>
                     <TableCell className="text-left">
