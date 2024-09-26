@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import UploadImages from "@/components/protected/property-detail/upload-images";
 import PropertyCarousel from "@/components/protected/property-detail/property-carousel";
+import UploadCarouselImage from "@/components/protected/property-detail/upload-cover-image";
 
 const formatter = new Intl.NumberFormat("it", {
   style: "currency",
@@ -233,6 +234,7 @@ async function PropertyPage({ params }: PropertyPageProps) {
             </CardContent>
           </Card>
           <UploadImages id={id} />
+          <UploadCarouselImage id={id} />
         </div>
       </div>
     </main>
