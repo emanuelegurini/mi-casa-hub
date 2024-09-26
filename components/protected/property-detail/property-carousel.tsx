@@ -95,7 +95,7 @@ const PropertyCarousel = (props: { id: string; userID: string }) => {
                         <CardContent className="flex aspect-square items-center justify-center p-0">
                           <img
                             src={`https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/gallery-image/${props.userID}/${props.id}/${image.name}`}
-                            alt={`Image ${index + 1}`}
+                            alt={`Image ${image.name}`}
                             className="w-full h-full object-cover"
                           />
                         </CardContent>

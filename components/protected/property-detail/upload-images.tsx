@@ -7,7 +7,7 @@ import { Loader2 as SpinnerIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
-const UploadImages: React.FC<{ id: string }> = (props) => {
+const UploadCarouselImages: React.FC<{ id: string }> = (props) => {
   const { toast } = useToast();
 
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -44,12 +44,14 @@ const UploadImages: React.FC<{ id: string }> = (props) => {
             title: "Upload Error",
             description: error.message,
           });
-          setSelectedFiles([]);
+
+          break;
         } else {
           toast({
             title: "Upload notice",
-            description: "File uploaded succesfully",
+            description: "File uploaded successfully",
           });
+          window.location.reload();
         }
       }
     });
@@ -94,4 +96,4 @@ const UploadImages: React.FC<{ id: string }> = (props) => {
   );
 };
 
-export default UploadImages;
+export default UploadCarouselImages;
