@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import DeletePropertyButton from "@/components/protected/property-detail/delete-property";
 
 const formatter = new Intl.NumberFormat("it", {
   style: "currency",
@@ -64,9 +65,12 @@ export default async function Home() {
                 <TableCell>{surfacearea}</TableCell>
                 <TableCell>{formatter.format(Number(price))}</TableCell>
                 <TableCell className="text-center">
-                  <Button asChild>
-                    <Link href={`./property/${id}`}>Apri</Link>
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Button asChild>
+                      <Link href={`./property/${id}`}>Apri</Link>
+                    </Button>
+                    <DeletePropertyButton id={id} />
+                  </div>
                 </TableCell>
               </TableRow>
             );
