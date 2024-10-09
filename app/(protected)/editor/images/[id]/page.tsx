@@ -1,3 +1,4 @@
+import ImageWithDeleteButton from "@/components/protected/property-detail/delete-image";
 import UploadCoverImage from "@/components/protected/property-detail/upload-cover-image";
 import UploadCarouselImages from "@/components/protected/property-detail/upload-images";
 import { createClient } from "@/utils/supabase/server";
@@ -57,17 +58,19 @@ export default async function Images({ params }: ImagesPageProps) {
                 key={image.name}
                 className="aspect-w-1 aspect-h-1 rounded-sm overflow-hidden"
               >
-                <img
-                  src={`https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/gallery-image/${user.id}/${id}/${image.name}`}
-                  alt={`Image`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    height: "100%",
-                  }}
-                />
+                <ImageWithDeleteButton id={id} fileName={image.name} dir="gallery-image">               
+                  <img
+                    src={`https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/gallery-image/${user.id}/${id}/${image.name}`}
+                    alt={`Image`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      height: "100%",
+                    }}
+                  />
+                </ImageWithDeleteButton>
               </div>
             ))}
           </div>
@@ -76,11 +79,13 @@ export default async function Images({ params }: ImagesPageProps) {
       <aside className="w-full lg:w-2/6 p-4 flex flex-col space-y-4">
         {coverData.length > 0 ? (
           <div className="aspect-w-1 aspect-h-1 rounded-md overflow-hidden">
-            <img
-              src={`https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/cover-image/${user.id}/${id}/${coverData[0].name}`}
-              alt="Cover Image"
-              className="w-full h-full object-cover"
-            />
+            <ImageWithDeleteButton id={id} fileName={coverData[0].name} dir="cover-image">               
+              <img
+                src={`https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/cover-image/${user.id}/${id}/${coverData[0].name}`}
+                alt="Cover Image"
+                className="w-full h-full object-cover"
+              />
+            </ImageWithDeleteButton>
           </div>
         ) : (
           <UploadCoverImage id={id} />
