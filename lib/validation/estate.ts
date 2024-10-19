@@ -65,6 +65,8 @@ const optionalFields = {
   year_built: yearBuiltSchema,
   has_garage: booleanSchema.describe("Has garage"),
   has_fireplace: booleanSchema.describe("Has fireplace"),
+  videoId: z.union([z.string(), z.null()]).describe("Property address"),
+  mapFrame: z.union([z.string(), z.null()]).describe("Property address"),
 };
 
 // Main schema

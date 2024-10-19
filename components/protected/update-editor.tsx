@@ -85,6 +85,8 @@ function UpdateEditor({ post }: EditorProps) {
     has_garage: post.has_garage,
     has_fireplace: post.has_fireplace ?? false,
     property_type_id: post.property_type_id,
+    videoId: post.videoId,
+    mapFrame: post.mapFrame
   };
 
   const form = useForm<EditorFormValues>({
@@ -732,6 +734,42 @@ function UpdateEditor({ post }: EditorProps) {
                 </FormItem>
               )}
             />
+          </div>
+
+          <div className="flex space-x-4">
+          <FormField
+            control={form.control}
+            name="videoId"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Video Id</FormLabel>
+                <FormControl>
+                  <Input placeholder="Video Id" {...field} value={field.value ?? ""} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="mapFrame"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Map Frame</FormLabel>
+                <FormControl>
+                  <Input placeholder="Map Frame" {...field} value={field.value ?? ""} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
           {isPending && <h1>sto ad aspettà</h1>}
           <Button type="submit">Submit</Button>
