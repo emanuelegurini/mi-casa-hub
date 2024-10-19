@@ -337,48 +337,57 @@ function Editor({ userId }: { userId: String }) {
                   <FormDescription>This is the floor.</FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="floor_type_id"
-              render={({ field }) => (
+              <FormField
+                control={form.control}
+                name="floor_type_id"
+                render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Floor Type</FormLabel>
                   <FormControl>
+                  <div className="flex items-center space-x-2">
                     <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      value={field.value ?? ""}
+                    onValueChange={(value) => field.onChange(value)}
+                    value={field.value ?? ""}
                     >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Floor type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {propertyFloorTypeConfig.map((floorType) => {
-                          const { id, title } = floorType;
-                          if (id !== "/") {
-                            return (
-                              <SelectItem key={id} value={id}>
-                                {title}
-                              </SelectItem>
-                            );
-                          }
-                          return null;
-                        })}
-                      </SelectContent>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Floor type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {propertyFloorTypeConfig.map((floorType) => {
+                      const { id, title } = floorType;
+                      if (id !== "/") {
+                        return (
+                        <SelectItem key={id} value={id}>
+                          {title}
+                        </SelectItem>
+                        );
+                      }
+                      return null;
+                      })}
+                    </SelectContent>
                     </Select>
+                    <Button
+                    type="button"
+                    onClick={() => form.setValue("floor_type_id", null)}
+                    className="self-end"
+                    >
+                    Reset
+                    </Button>
+                  </div>
                   </FormControl>
                   <FormDescription>This is the floor type.</FormDescription>
                   <FormMessage />
                 </FormItem>
-              )}
-            />
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="has_elevator"
-              render={({ field }) => (
+              <FormField
+                control={form.control}
+                name="has_elevator"
+                render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Has Elevator</FormLabel>
                   <FormControl>
@@ -510,79 +519,95 @@ function Editor({ userId }: { userId: String }) {
             )}
           />
 
-          <div className="flex space-x-4">
-            <FormField
-              control={form.control}
-              name="heating_id"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Heating</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      value={field.value ?? ""}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Heating" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {propertyHeatingTypeConfig.map((heatingType) => {
-                          const { id, title } = heatingType;
-                          if (id !== "/") {
-                            return (
-                              <SelectItem key={id} value={id}>
-                                {title}
-                              </SelectItem>
-                            );
-                          }
-                          return null;
-                        })}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Heating type</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex space-x-4">
+              <FormField
+                control={form.control}
+                name="heating_id"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Heating</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center space-x-2">
+                        <Select
+                          onValueChange={(value) => field.onChange(value)}
+                          value={field.value ?? ""}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Heating" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {propertyHeatingTypeConfig.map((heatingType) => {
+                              const { id, title } = heatingType;
+                              if (id !== "/") {
+                                return (
+                                  <SelectItem key={id} value={id}>
+                                    {title}
+                                  </SelectItem>
+                                );
+                              }
+                              return null;
+                            })}
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          type="button"
+                          onClick={() => form.setValue("heating_id", null)}
+                          className="self-end"
+                        >
+                          Reset
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormDescription>Heating type</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="energy_source_id"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormLabel>Energy Source</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(value) => field.onChange(value)}
-                      value={field.value ?? ""}
-                    >
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Energy source" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {propertyEnergySourceTypeConfig.map(
-                          (energySourceType) => {
-                            const { id, title } = energySourceType;
-                            if (id !== "/") {
-                              return (
-                                <SelectItem key={id} value={id}>
-                                  {title}
-                                </SelectItem>
-                              );
-                            }
-                            return null;
-                          }
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormDescription>Energy source</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+              <FormField
+                control={form.control}
+                name="energy_source_id"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Energy Source</FormLabel>
+                    <FormControl>
+                      <div className="flex items-center space-x-2">
+                        <Select
+                          onValueChange={(value) => field.onChange(value)}
+                          value={field.value ?? ""}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Energy source" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {propertyEnergySourceTypeConfig.map((energySourceType) => {
+                              const { id, title } = energySourceType;
+                              if (id !== "/") {
+                                return (
+                                  <SelectItem key={id} value={id}>
+                                    {title}
+                                  </SelectItem>
+                                );
+                              }
+                              return null;
+                            })}
+                          </SelectContent>
+                        </Select>
+                        <Button
+                          type="button"
+                          onClick={() => form.setValue("energy_source_id", null)}
+                          className="self-end"
+                        >
+                          Reset
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormDescription>Energy source</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
           <div className="flex space-x-4">
             <FormField

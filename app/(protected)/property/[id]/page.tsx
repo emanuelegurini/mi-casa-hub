@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
+import YouTubePlayer from "@/components/ui/youtube";
+import SimpleMap from "@/components/ui/google-map";
 
 const formatter = new Intl.NumberFormat("it", {
   style: "currency",
@@ -34,6 +36,8 @@ async function PropertyPage({ params }: PropertyPageProps) {
             Property Details
           </h1>
           <div className="flex gap-2">
+            <SimpleMap id={id}/>
+            <YouTubePlayer id={id} />
             <Button className="text-white" asChild>
               <Link href={`/editor/images/${id}`}>Images</Link>
             </Button>
@@ -197,37 +201,37 @@ async function PropertyPage({ params }: PropertyPageProps) {
               </Table>
             </CardContent>
           </Card>
-          <Card>
+            <Card>
             <CardHeader>
               <CardTitle>Energy Efficiency</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">
-                      Property Condition
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {data.energyEfficiency.propertyCondition}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Heating Type</TableCell>
-                    <TableCell className="text-right">
-                      {data.energyEfficiency.heatingType}
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">Energy Source</TableCell>
-                    <TableCell className="text-right">
-                      {data.energyEfficiency.energySource}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
+              <TableBody>
+                <TableRow>
+                <TableCell className="font-medium">
+                  Property Condition
+                </TableCell>
+                <TableCell className="text-right">
+                  {data.energyEfficiency.propertyCondition}
+                </TableCell>
+                </TableRow>
+                <TableRow>
+                <TableCell className="font-medium">Heating Type</TableCell>
+                <TableCell className="text-right">
+                  {data.energyEfficiency.heatingType}
+                </TableCell>
+                </TableRow>
+                <TableRow>
+                <TableCell className="font-medium">Energy Source</TableCell>
+                <TableCell className="text-right">
+                  {data.energyEfficiency.energySource}
+                </TableCell>
+                </TableRow>
+              </TableBody>
               </Table>
             </CardContent>
-          </Card>
+            </Card>
         </div>
       </div>
     </main>
